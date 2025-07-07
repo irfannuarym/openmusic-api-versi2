@@ -66,7 +66,7 @@ class PlaylistsHandler {
     const { id: owner } = request.auth.credentials;
 
     await this._service.verifyPlaylistOwner(playlistId, owner);
-    await this._service.verifySong(playlistId, songId);
+    await this._service.verifySong(songId);
     await this._service.addSongToPlaylist(playlistId, songId);    
     // await this._service.postActivity(playlistId, songId, owner, 'add');
 
@@ -83,7 +83,7 @@ class PlaylistsHandler {
     const { id: owner } = request.auth.credentials;
 
     await this._service.verifyPlaylistOwner(playlistId, owner);
-    const playlist = await this._service.getPlaylistById(playlistId);
+    const playlist = await this._service.getSongsFromPlaylist(playlistId);
 
     return {
       status: 'success',
