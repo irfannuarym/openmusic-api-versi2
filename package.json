@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "migrate": "dotenv -e .env -- node-pg-migrate up"
+    "migrate": "node-pg-migrate"
   },
   "dependencies": {
     "@hapi/hapi": "^21.4.0",

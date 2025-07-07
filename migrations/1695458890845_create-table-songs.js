@@ -18,7 +18,7 @@ exports.up = (pgm) => {
     },
     genre: {
       type: 'TEXT',
-      notNull: true,
+      notNull: false,
     },
     duration: {
       type: 'INTEGER',
@@ -26,15 +26,11 @@ exports.up = (pgm) => {
     },
     album_id: {
       type: 'VARCHAR(50)',
-      notNull: false,
+      references: '"albums"',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
   });
-
-  pgm.addConstraint(
-    'songs',
-    'fk_songs.album_id',
-    'FOREIGN KEY(album_id) REFERENCES albums(id) ON DELETE CASCADE',
-  );
 };
 
 exports.down = (pgm) => {
