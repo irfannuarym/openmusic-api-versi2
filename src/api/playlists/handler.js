@@ -67,7 +67,7 @@ class PlaylistsHandler {
 
     await this._service.verifyPlaylistOwner(playlistId, owner);
     await this._service.verifySong(songId);
-    await this._service.addSongToPlaylist(playlistId, songId);    
+    await this._service.addSongToPlaylist(playlistId, songId);
     // await this._service.postActivity(playlistId, songId, owner, 'add');
 
     const response = h.response({
