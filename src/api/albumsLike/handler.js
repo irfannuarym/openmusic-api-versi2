@@ -7,6 +7,7 @@ class AlbumLikesHandler {
 
     this.postLikeHandler = this.postLikeHandler.bind(this);
     this.getLikeHandler = this.getLikeHandler.bind(this);
+    this.deleteLikeHandler = this.deleteLikeHandler.bind(this);
   }
 
   async postLikeHandler(request, h) {
@@ -27,12 +28,10 @@ class AlbumLikesHandler {
       }).code(201);
     }
 
-    await this._service.deleteAlbumLike(credentialId, albumId);
-
     return h.response({
-      status: 'success',
+      status: 'fail',
       message: 'Berhasil melakukan unlike',
-    }).code(201);
+    }).code(400);
   }
 
   async getLikeHandler(request, h) {
@@ -50,6 +49,19 @@ class AlbumLikesHandler {
     })
       .header('X-Data-Source', data.source)
       .code(200);
+  }
+
+  async deleteLikeHandler(request, h) {
+    const { id } = request.params;
+    const albumId = id;
+    const { id: credentialId } = request.auth.credentials;
+
+    await this._service.deleteAlbumLike(credentialId, albumId);
+
+    return h.response({
+      status: 'success',
+      message: 'Berhasil melakukan unlike',
+    }).code(200);
   }
 }
 
