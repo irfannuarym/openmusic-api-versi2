@@ -11,7 +11,7 @@ class AlbumsLikesService {
   async addAlbumLike(userId, albumId) {
     const id = `like-${nanoid(16)}`;
     const query = {
-      text: 'INSERT INTO user_albums_like VALUES ($1, $2, $3) returning id',
+      text: 'INSERT INTO user_album_likes VALUES ($1, $2, $3) returning id',
       values: [id, userId, albumId],
     };
 
@@ -27,7 +27,7 @@ class AlbumsLikesService {
 
   async deleteAlbumLike(userId, albumId) {
     const query = {
-      text: `DELETE FROM user_albums_like WHERE user_id = $1 AND "albumId" = $2 returning id`,
+      text: `DELETE FROM user_album_likes WHERE user_id = $1 AND "albumId" = $2 returning id`,
       values: [userId, albumId],
     };
 
@@ -42,7 +42,7 @@ class AlbumsLikesService {
 
   async checkAlreadyLike(userId, albumId) {
     const query = {
-      text: `SELECT * FROM user_albums_like WHERE user_id = $1 AND "albumId" = $2`,
+      text: `SELECT * FROM user_album_likes WHERE user_id = $1 AND "albumId" = $2`,
       values: [userId, albumId],
     };
 
@@ -60,7 +60,7 @@ class AlbumsLikesService {
       };
     } catch (error) {
       const query = {
-        text: `SELECT * FROM user_albums_like WHERE "albumId" = $1`,
+        text: `SELECT * FROM user_album_likes WHERE "albumId" = $1`,
         values: [albumId],
       };
 
