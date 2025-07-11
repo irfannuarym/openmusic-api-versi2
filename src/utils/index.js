@@ -5,9 +5,9 @@ const mapSongDBToModel = ({
 });
 
 const mapAlbumDBToModel = ({
-  id, name, year,
+  id, name, year, coverUrl,
 }) => ({
-  id, name, year,
+  id, name, year, coverUrl,
 });
 
 const mapUserDBToModel = ({

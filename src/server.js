@@ -13,6 +13,7 @@ const playlists = require('./api/playlists');
 const collaborations = require('./api/collaborations');
 const _exports = require('./api/exports');
 const uploads = require('./api/uploads');
+const albumsLikes = require('./api/albumsLike');
 
 const AuthenticationsService = require('./services/postgres/AuthenticationsService');
 const UsersService = require('./services/postgres/UsersService');
@@ -22,6 +23,8 @@ const PlaylistsService = require('./services/postgres/PlaylistsService');
 const CollaborationsService = require('./services/postgres/CollaborationsService');
 const ProducerService = require('./services/rabbitmq/ProducerService');
 const StorageService = require('./services/storage/StorageService');
+const AlbumsLikesService = require('./services/postgres/AlbumsLikesService');
+const CacheService = require('./services/redis/CacheService');
 
 const AuthValidator = require('./validator/authValidator');
 const UsersValidator = require('./validator/usersValidator');
@@ -79,6 +82,8 @@ const init = async () => {
   const collaborationsService = new CollaborationsService();
   const playlistsService = new PlaylistsService(collaborationsService);
   const storageService = new StorageService(path.resolve(__dirname, 'api/uploads/file/images'));
+  const cacheService = new CacheService();
+  const albumsLikesService = new AlbumsLikesService(cacheService);
 
   await server.register([
     {
@@ -145,6 +150,13 @@ const init = async () => {
         albumsService,
       },
     },
+    {
+      plugin: albumsLikes,
+      options: {
+        service: albumsLikesService,
+        albumsService,
+      },
+    },
   ]);
 
   server.ext('onPreResponse', (request, h) => {
@@ -177,7 +189,7 @@ const init = async () => {
     path: '/',
     handler: () => ({
       status: 'success',
-      message: 'Server OpenMusic V2 aktif!',
+      message: 'Server OpenMusic V3 aktif!',
     }),
   });
 
